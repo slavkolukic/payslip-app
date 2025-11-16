@@ -42,7 +42,7 @@ const createStyles = (theme: Theme) => {
       borderRadius: 12,
       backgroundColor: theme.colors.bg,
       shadowColor: "#000",
-      shadowOpacity: true ? 0.25 : 0.08,
+      shadowOpacity: theme.isDark ? 0.25 : 0.08,
       shadowOffset: { width: 0, height: 2 },
       shadowRadius: 8,
       elevation: 2,

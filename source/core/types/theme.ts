@@ -3,6 +3,7 @@
  * to keep it with just colors for the demonstration purposes.
  */
 export type Theme = {
+  isDark: boolean;
   colors: {
     bgDark: string;
     bg: string;

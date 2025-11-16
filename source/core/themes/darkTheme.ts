@@ -1,6 +1,7 @@
 import { Theme } from "../types";
 
 export const darkTheme: Theme = {
+  isDark: true,
   colors: {
     bgDark: "hsl(0, 0%, 0%)",
     bg: "hsl(0, 0%, 5%)",
