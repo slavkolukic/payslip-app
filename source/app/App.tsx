@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { Theme } from "@/core/types";
 import { useAppInit, useStyles, useTheme } from "@/core/hooks";
-import { Text } from "@/core/components";
+import { Button, Text } from "@/core/components";
 
 export default function App() {
   const { isDark, setPreference } = useTheme();
@@ -26,11 +26,12 @@ export default function App() {
         Background and text reflect the active theme.
       </Text>
       <View style={styles.buttonSpacer} />
-      <TouchableOpacity style={styles.button} onPress={toggleTheme}>
-        <Text variant="button">
-          {isDark ? "Switch to Light" : "Switch to Dark"}
-        </Text>
-      </TouchableOpacity>
+      <Button
+        label={isDark ? "Switch to Light" : "Switch to Dark"}
+        iconName={isDark ? "sunny" : "moon"}
+        onPress={toggleTheme}
+        variant="primary"
+      />
       <StatusBar style={isDark ? "light" : "dark"} />
     </View>
   );
@@ -40,7 +41,7 @@ const createStyles = (theme: Theme) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme.colors.bg,
+      backgroundColor: theme.colors.bgDark,
       alignItems: "center",
       justifyContent: "center",
       gap: 16,
@@ -48,11 +49,5 @@ const createStyles = (theme: Theme) =>
     },
     buttonSpacer: {
       height: 8,
-    },
-    button: {
-      backgroundColor: theme.colors.secondary,
-      paddingHorizontal: 16,
-      paddingVertical: 10,
-      borderRadius: 8,
     },
   });
