@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -21,69 +21,71 @@ type ButtonProps = Omit<TouchableOpacityProps, "children"> & {
   iconName?: IconName;
 };
 
-export const Button: FC<ButtonProps> = ({
-  label,
-  variant = "default",
-  disabled,
-  style,
-  loading = false,
-  iconName,
-  ...otherProps
-}) => {
-  const styles = useStyles(createButtonStyles);
-  const { theme } = useTheme();
+export const Button: FC<ButtonProps> = memo(
+  ({
+    label,
+    variant = "default",
+    disabled,
+    style,
+    loading = false,
+    iconName,
+    ...otherProps
+  }) => {
+    const styles = useStyles(createButtonStyles);
+    const { theme } = useTheme();
 
-  const containerVariantStyle = useMemo(
-    () =>
-      variant === "primary"
-        ? styles.primary
-        : variant === "outlined"
-        ? styles.outlined
-        : styles.default,
-    [variant, styles]
-  );
+    const containerVariantStyle = useMemo(
+      () =>
+        variant === "primary"
+          ? styles.primary
+          : variant === "outlined"
+          ? styles.outlined
+          : styles.default,
+      [variant, styles]
+    );
 
-  const labelColor: ThemeColor = useMemo(() => {
-    switch (variant) {
-      case "primary":
-        return "primary";
-      case "outlined":
-        return "text";
-      default:
-        return "text";
-    }
-  }, [variant]);
+    const labelColor: ThemeColor = useMemo(() => {
+      switch (variant) {
+        case "primary":
+          return "primary";
+        case "outlined":
+          return "text";
+        default:
+          return "text";
+      }
+    }, [variant]);
 
-  return (
-    <TouchableOpacity
-      {...otherProps}
-      style={[
-        styles.base,
-        containerVariantStyle,
-        disabled && styles.disabled,
-        style,
-      ]}
-    >
-      <View style={[styles.content, loading && styles.contentHidden]}>
-        {iconName ? (
-          <Icon
-            iconName={iconName}
-            size={24}
-            color={labelColor}
-            style={styles.icon}
-          />
+    return (
+      <TouchableOpacity
+        {...otherProps}
+        style={[
+          styles.base,
+          containerVariantStyle,
+          disabled && styles.disabled,
+          style,
+        ]}
+      >
+        <View style={[styles.content, loading && styles.contentHidden]}>
+          {iconName ? (
+            <Icon
+              iconName={iconName}
+              size={24}
+              color={labelColor}
+              style={styles.icon}
+            />
+          ) : null}
+          <Text numberOfLines={1} variant="button" textColor={labelColor}>
+            {label}
+          </Text>
+          <Icon iconName="build" size={24} style={styles.dummyIcon} />
+        </View>
+        {loading ? (
+          <ActivityIndicator style={styles.loading} color={theme.colors.text} />
         ) : null}
-        <Text numberOfLines={1} variant="button" textColor={labelColor}>
-          {label}
-        </Text>
-        <Icon iconName="build" size={24} style={styles.dummyIcon} />
-      </View>
-      {loading ? (
-        <ActivityIndicator style={styles.loading} color={theme.colors.text} />
-      ) : null}
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  }
+);
 
 const createButtonStyles = (theme: Theme) =>
   StyleSheet.create({

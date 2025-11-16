@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { IconName, ThemeColor } from "../types";
 import { StyleProp, ViewStyle } from "react-native";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { useTheme } from "../hooks";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Icon: FC<Props> = ({ iconName, size = 24, color, style }) => {
+export const Icon: FC<Props> = memo(({ iconName, size = 24, color, style }) => {
   const { theme } = useTheme();
 
   const effectiveColor = useMemo(() => {
@@ -26,4 +26,4 @@ export const Icon: FC<Props> = ({ iconName, size = 24, color, style }) => {
       style={style}
     />
   );
-};
+});

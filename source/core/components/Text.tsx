@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import {
   Text as RNText,
   TextProps as RNTextProps,
@@ -14,23 +14,20 @@ type TextProps = RNTextProps & {
   textColor?: ThemeColor;
 };
 
-export const Text: FC<TextProps> = ({
-  variant = "body",
-  textColor,
-  style,
-  ...props
-}) => {
-  const { theme } = useTheme();
+export const Text: FC<TextProps> = memo(
+  ({ variant = "body", textColor, style, ...props }) => {
+    const { theme } = useTheme();
 
-  const colorStyle: TextStyle = useMemo(() => {
-    return {
-      color: textColor ? theme.colors[textColor] : theme.colors.text,
-    };
-  }, [textColor, theme.colors]);
+    const colorStyle: TextStyle = useMemo(() => {
+      return {
+        color: textColor ? theme.colors[textColor] : theme.colors.text,
+      };
+    }, [textColor, theme.colors]);
 
-  return (
-    <RNText {...props} style={[typography[variant], style, colorStyle]}>
-      {props.children}
-    </RNText>
-  );
-};
+    return (
+      <RNText {...props} style={[typography[variant], style, colorStyle]}>
+        {props.children}
+      </RNText>
+    );
+  }
+);
