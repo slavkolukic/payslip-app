@@ -1,3 +1,7 @@
+/**
+ * Theme would ideally also contain typography, spacing etc. but I've decided
+ * to keep it with just colors for the demonstration purposes.
+ */
 export type Theme = {
   colors: {
     bgDark: string;
