@@ -4,14 +4,21 @@ import { FC, memo } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { Icon } from "./Icon";
 import { triggerHapticFeedback } from "../services";
+import { RALEWAY } from "../constants";
+import { useStyles } from "../hooks";
+import { Theme } from "../types";
 
 type Props = NativeStackHeaderProps;
 
 export const AppHeader: FC<Props> = memo(
   ({ options, route, back, navigation }) => {
+    const styles = useStyles(createStyles);
     return (
       <Header
         {...options}
+        headerTitleStyle={styles.headerTitle}
+        headerBackTitleStyle={styles.headerBackTitle}
+        headerStyle={styles.headerContainer}
         headerRight={() => {
           if (route.name !== "Payslips") return null;
           const handlePress = () => {
@@ -39,8 +46,21 @@ export const AppHeader: FC<Props> = memo(
   }
 );
 
-const styles = StyleSheet.create({
-  headerRightContainer: {
-    marginRight: 12,
-  },
-});
+const createStyles = (theme: Theme) =>
+  StyleSheet.create({
+    headerContainer: {
+      backgroundColor: theme.colors.bg,
+    },
+    headerTitle: {
+      fontFamily: RALEWAY.SEMI_BOLD,
+      fontSize: 18,
+      color: theme.colors.text,
+    },
+    headerBackTitle: {
+      fontFamily: RALEWAY.SEMI_BOLD,
+      fontSize: 16,
+    },
+    headerRightContainer: {
+      marginRight: 12,
+    },
+  });

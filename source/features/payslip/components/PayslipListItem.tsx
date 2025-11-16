@@ -15,7 +15,6 @@ export const PayslipListItem: FC<Props> = memo(({ fromDate, toDate }) => {
 
   return (
     <TouchableOpacity
-      onPress={() => {}}
       activeOpacity={ACTIVE_OPACITY.default}
       style={styles.itemContainer}
     >

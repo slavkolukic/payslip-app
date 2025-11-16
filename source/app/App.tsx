@@ -12,13 +12,18 @@ export default function App() {
 
   const appInitialized = useAppInit();
 
+  const { theme } = useTheme();
+
   if (!appInitialized) {
     // ideally splash screen should be hidden here
     return null;
   }
 
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+    <SafeAreaProvider
+      initialMetrics={initialWindowMetrics}
+      style={{ backgroundColor: theme.colors.bgDark }}
+    >
       <NavigationContainer>
         <RootStackNavigator />
       </NavigationContainer>

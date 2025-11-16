@@ -14,12 +14,8 @@ export const RootStackNavigator = () => {
   return (
     <RootStack.Navigator
       screenOptions={{
-        headerTitleStyle: {
-          fontFamily: RALEWAY.SEMI_BOLD,
-          fontSize: 18,
-          color: theme.colors.text,
-        },
         header: (props) => <AppHeader {...props} />,
+        contentStyle: { backgroundColor: theme.colors.bgDark },
       }}
     >
       <RootStack.Screen name="Payslips" component={PayslipsScreen} />
