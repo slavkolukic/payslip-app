@@ -1,17 +1,7 @@
 import { create } from "zustand";
 import { Payslip } from "../types";
 
-type PayslipStore = {
-  payslips: Payslip[];
-  setPayslips: (payslips: Payslip[]) => void;
-};
-
-export const usePayslipStore = create<PayslipStore>((set) => ({
-  payslips: MOCK_PAYSLIPS,
-  setPayslips: (payslips) => set({ payslips }),
-}));
-
-export const MOCK_PAYSLIPS: Payslip[] = [
+const MOCK_PAYSLIPS: Payslip[] = [
   {
     id: "ps_2025_01",
     fromDate: "2025-01-01",
@@ -84,4 +74,44 @@ export const MOCK_PAYSLIPS: Payslip[] = [
     toDate: "2024-02-29",
     file: null,
   },
+  {
+    id: "ps_2024_01",
+    fromDate: "2024-01-01",
+    toDate: "2024-01-31",
+    file: null,
+  },
+  {
+    id: "ps_2023_12",
+    fromDate: "2023-12-01",
+    toDate: "2023-12-31",
+    file: null,
+  },
+  {
+    id: "ps_2023_11",
+    fromDate: "2023-11-01",
+    toDate: "2023-11-30",
+    file: null,
+  },
+  {
+    id: "ps_2023_10",
+    fromDate: "2023-10-01",
+    toDate: "2023-10-31",
+    file: null,
+  },
+  {
+    id: "ps_2023_09",
+    fromDate: "2023-09-01",
+    toDate: "2023-09-30",
+    file: null,
+  },
 ];
+
+type PayslipStore = {
+  payslips: Payslip[];
+  setPayslips: (payslips: Payslip[]) => void;
+};
+
+export const usePayslipStore = create<PayslipStore>((set) => ({
+  payslips: MOCK_PAYSLIPS,
+  setPayslips: (payslips) => set({ payslips }),
+}));
