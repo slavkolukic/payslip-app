@@ -1,2 +1,3 @@
-export { type Theme } from "./theme";
+export { type Theme, type ThemeColors } from "./theme";
 export { type ThemePreference } from "./themePreference";
+export { type TextVariant } from "./textVariant";

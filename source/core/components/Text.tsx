@@ -2,16 +2,16 @@ import { FC, useMemo } from "react";
 import {
   Text as RNText,
   TextProps as RNTextProps,
-  StyleSheet,
+  TextStyle,
 } from "react-native";
 import { useTheme } from "../hooks";
-import { RALEWAY } from "../constants/fonts";
 
-type TextVariant = keyof typeof styles;
+import { TextVariant, ThemeColors } from "../types";
+import { typography } from "../styles";
 
 type TextProps = RNTextProps & {
   variant?: TextVariant;
-  textColor?: string;
+  textColor?: ThemeColors;
 };
 
 export const Text: FC<TextProps> = ({
@@ -22,44 +22,15 @@ export const Text: FC<TextProps> = ({
 }) => {
   const { theme } = useTheme();
 
-  const color = useMemo(
-    () => (textColor ? textColor : theme.colors.text),
-    [textColor, theme.colors.text]
-  );
+  const colorStyle: TextStyle = useMemo(() => {
+    return {
+      color: textColor ? theme.colors[textColor] : theme.colors.text,
+    };
+  }, [textColor, theme.colors]);
 
   return (
-    <RNText {...props} style={[styles[variant], style, { color }]}>
+    <RNText {...props} style={[typography[variant], style, colorStyle]}>
       {props.children}
     </RNText>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontFamily: RALEWAY.BOLD,
-    fontSize: 24,
-    lineHeight: 30,
-    letterSpacing: -0.15,
-  },
-  subtitle: {
-    fontFamily: RALEWAY.SEMI_BOLD,
-    fontSize: 16,
-    lineHeight: 22,
-  },
-  body: {
-    fontFamily: RALEWAY.REGULAR,
-    fontSize: 16,
-    lineHeight: 22,
-  },
-  caption: {
-    fontFamily: RALEWAY.MEDIUM,
-    fontSize: 12,
-    lineHeight: 16,
-    letterSpacing: 0.2,
-  },
-  button: {
-    fontFamily: RALEWAY.SEMI_BOLD,
-    fontSize: 16,
-    lineHeight: 20,
-  },
-});

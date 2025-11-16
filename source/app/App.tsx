@@ -22,7 +22,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text variant="title">Theme: {isDark ? "Dark" : "Light"}</Text>
-      <Text variant="body">Background and text reflect the active theme.</Text>
+      <Text variant="body" textColor="textMuted">
+        Background and text reflect the active theme.
+      </Text>
       <View style={styles.buttonSpacer} />
       <TouchableOpacity style={styles.button} onPress={toggleTheme}>
         <Text variant="button">

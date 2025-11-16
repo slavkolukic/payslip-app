@@ -16,3 +16,5 @@ export type Theme = {
     info: string;
   };
 };
+
+export type ThemeColors = keyof Theme["colors"];
