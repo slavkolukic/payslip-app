@@ -1,18 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-
-import { Theme } from "@/core/types";
-import { useAppInit, useStyles, useTheme } from "@/core/hooks";
-import { Button, Text } from "@/core/components";
+import { useAppInit, useTheme } from "@/core/hooks";
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from "react-native-safe-area-context";
+import { RootStackNavigator } from "./navigation";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
-  const { isDark, setPreference } = useTheme();
-  const styles = useStyles(createStyles);
-  const appInitialized = useAppInit();
+  const { isDark } = useTheme();
 
-  const toggleTheme = () => {
-    setPreference(isDark ? "light" : "dark");
-  };
+  const appInitialized = useAppInit();
 
   if (!appInitialized) {
     // ideally splash screen should be hidden here
@@ -20,34 +18,11 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text variant="title">Theme: {isDark ? "Dark" : "Light"}</Text>
-      <Text variant="body" textColor="textMuted">
-        Background and text reflect the active theme.
-      </Text>
-      <View style={styles.buttonSpacer} />
-      <Button
-        label={isDark ? "Switch to Light" : "Switch to Dark"}
-        iconName={isDark ? "sunny" : "moon"}
-        onPress={toggleTheme}
-        variant="primary"
-      />
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <NavigationContainer>
+        <RootStackNavigator />
+      </NavigationContainer>
       <StatusBar style={isDark ? "light" : "dark"} />
-    </View>
+    </SafeAreaProvider>
   );
 }
-
-const createStyles = (theme: Theme) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.colors.bgDark,
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 16,
-      paddingHorizontal: 24,
-    },
-    buttonSpacer: {
-      height: 8,
-    },
-  });
