@@ -1,6 +1,8 @@
-import { FC, memo, useMemo } from "react";
+import { FC, memo, useCallback, useMemo } from "react";
 import {
   ActivityIndicator,
+  NativeSyntheticEvent,
+  NativeTouchEvent,
   StyleSheet,
   TouchableOpacity,
   TouchableOpacityProps,
@@ -11,14 +13,18 @@ import { Text } from "./Text";
 import { IconName, Theme, ThemeColor } from "../types";
 import { useTheme } from "../hooks";
 import { Icon } from "./Icon";
+import { ACTIVE_OPACITY } from "../constants";
+import { HapticFeedbackType, triggerHapticFeedback } from "../services";
 
 type ButtonVariant = "default" | "outlined" | "primary";
 
-type ButtonProps = Omit<TouchableOpacityProps, "children"> & {
+type ButtonProps = Omit<TouchableOpacityProps, "children" | "activeOpacity"> & {
   label: string;
   variant?: ButtonVariant;
   loading?: boolean;
   iconName?: IconName;
+  activeOpacity?: keyof typeof ACTIVE_OPACITY;
+  hapticFeedbackType?: HapticFeedbackType;
 };
 
 export const Button: FC<ButtonProps> = memo(
@@ -29,10 +35,23 @@ export const Button: FC<ButtonProps> = memo(
     style,
     loading = false,
     iconName,
+    activeOpacity = "default",
+    hapticFeedbackType,
+    onPress,
     ...otherProps
   }) => {
     const styles = useStyles(createButtonStyles);
     const { theme } = useTheme();
+
+    const handlePress = useCallback(
+      (event: NativeSyntheticEvent<NativeTouchEvent>) => {
+        if (hapticFeedbackType) {
+          triggerHapticFeedback(hapticFeedbackType);
+        }
+        onPress?.(event);
+      },
+      [hapticFeedbackType, onPress]
+    );
 
     const containerVariantStyle = useMemo(
       () =>
@@ -58,6 +77,8 @@ export const Button: FC<ButtonProps> = memo(
     return (
       <TouchableOpacity
         {...otherProps}
+        activeOpacity={ACTIVE_OPACITY[activeOpacity]}
+        onPress={handlePress}
         style={[
           styles.base,
           containerVariantStyle,
