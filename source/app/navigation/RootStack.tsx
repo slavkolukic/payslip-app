@@ -1,6 +1,6 @@
 import { RootStackParamList } from "@/core/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { PayslipsScreen } from "../screens";
+import { PayslipsScreen, SettingsScreen } from "../screens";
 import { RALEWAY } from "@/core/constants";
 import { useTheme } from "@/core/hooks";
 import { AppHeader } from "@/core/components";
@@ -24,7 +24,7 @@ export const RootStackNavigator = () => {
     >
       <RootStack.Screen name="Payslips" component={PayslipsScreen} />
       <RootStack.Screen name="PayslipDetail" component={DefaultScreen} />
-      <RootStack.Screen name="Settings" component={DefaultScreen} />
+      <RootStack.Screen name="Settings" component={SettingsScreen} />
     </RootStack.Navigator>
   );
 };
