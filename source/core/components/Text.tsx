@@ -6,12 +6,12 @@ import {
 } from "react-native";
 import { useTheme } from "../hooks";
 
-import { TextVariant, ThemeColors } from "../types";
+import { TextVariant, ThemeColor } from "../types";
 import { typography } from "../styles";
 
 type TextProps = RNTextProps & {
   variant?: TextVariant;
-  textColor?: ThemeColors;
+  textColor?: ThemeColor;
 };
 
 export const Text: FC<TextProps> = ({

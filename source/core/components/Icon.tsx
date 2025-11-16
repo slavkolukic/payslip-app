@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { IconName, ThemeColors } from "../types";
+import { IconName, ThemeColor } from "../types";
 import { StyleProp, ViewStyle } from "react-native";
 import { FC, useMemo } from "react";
 import { useTheme } from "../hooks";
@@ -7,7 +7,7 @@ import { useTheme } from "../hooks";
 type Props = {
   iconName: IconName;
   size?: number;
-  color?: ThemeColors;
+  color?: ThemeColor;
   style?: StyleProp<ViewStyle>;
 };
 

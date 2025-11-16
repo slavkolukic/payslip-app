@@ -21,4 +21,4 @@ export type Theme = {
   };
 };
 
-export type ThemeColors = keyof Theme["colors"];
+export type ThemeColor = keyof Theme["colors"];

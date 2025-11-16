@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useStyles } from "../hooks/useStyles";
 import { Text } from "./Text";
-import { IconName, Theme, ThemeColors } from "../types";
+import { IconName, Theme, ThemeColor } from "../types";
 import { useTheme } from "../hooks";
 import { Icon } from "./Icon";
 
@@ -43,7 +43,7 @@ export const Button: FC<ButtonProps> = ({
     [variant, styles]
   );
 
-  const labelColor: ThemeColors = useMemo(() => {
+  const labelColor: ThemeColor = useMemo(() => {
     switch (variant) {
       case "primary":
         return "primary";
