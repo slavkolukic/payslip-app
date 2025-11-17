@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, Theme } from "@/core/types";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
-import { LoadingIndicator, Text } from "@/core/components";
+import { Button, LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { formatDate } from "@/core/utils/formatDate";
 
@@ -13,6 +13,15 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
   const { payslipId } = route.params;
   const styles = useStyles(createStyles);
   const { payslip, loading } = usePayslip(payslipId);
+
+  const file = payslip?.file;
+
+  const fileTypeLabel = useMemo(() => {
+    if (!file) return "Not available";
+    if (file.mimeType === "application/pdf") return "PDF document";
+    if (file.mimeType.startsWith("image/")) return "Image";
+    return file.mimeType;
+  }, [file]);
 
   if (loading) {
     return (
@@ -58,7 +67,31 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
           </Text>
           <Text variant="body">{toLabel}</Text>
         </View>
+        <View style={styles.separator} />
+
+        <View style={styles.row}>
+          <Text variant="caption" textColor="textMuted">
+            File name
+          </Text>
+          <Text variant="body" numberOfLines={1}>
+            {file?.filename ?? "No file attached"}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text variant="caption" textColor="textMuted">
+            File type
+          </Text>
+          <Text variant="body">{fileTypeLabel}</Text>
+        </View>
       </View>
+      <Button
+        style={styles.downloadButton}
+        iconName="download"
+        label="Download payslip"
+        variant="primary"
+        onPress={() => {}}
+        disabled={!file}
+      />
     </View>
   );
 };
@@ -105,5 +138,13 @@ const createStyles = (theme: Theme) =>
       height: StyleSheet.hairlineWidth,
       backgroundColor: theme.colors.border,
       opacity: 0.6,
+    },
+    fileHeaderRow: {
+      marginTop: 4,
+      marginBottom: 4,
+    },
+    downloadButton: {
+      marginTop: 16,
+      alignSelf: "flex-start",
     },
   });
