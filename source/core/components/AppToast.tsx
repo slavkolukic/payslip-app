@@ -1,5 +1,5 @@
 import { FC, memo, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Toast, { BaseToastProps, ToastConfig } from "react-native-toast-message";
 import { useTheme } from "@/core/hooks";
 import { Text } from "./Text";
@@ -7,6 +7,10 @@ import { AppToastType } from "@/core/types";
 
 type AppToastProps = BaseToastProps & {
   variant: AppToastType;
+  props?: {
+    highlightText?: string;
+    onPress?: () => void;
+  };
 };
 
 export const AppToast = () => {
@@ -14,7 +18,7 @@ export const AppToast = () => {
 };
 
 const AppToastLayout: FC<AppToastProps> = memo(
-  ({ text1, variant }: AppToastProps) => {
+  ({ text1, variant, props }: AppToastProps) => {
     const { theme } = useTheme();
 
     const accentColor = useMemo(() => {
@@ -28,7 +32,10 @@ const AppToastLayout: FC<AppToastProps> = memo(
       }
     }, [variant, theme.colors]);
 
-    return (
+    const highlightText = props?.highlightText;
+    const handlePress = props?.onPress;
+
+    const content = (
       <View style={[styles.container, { backgroundColor: theme.colors.bg }]}>
         <View style={[styles.accent, { backgroundColor: accentColor }]} />
         <View style={styles.textContainer}>
@@ -40,9 +47,29 @@ const AppToastLayout: FC<AppToastProps> = memo(
           >
             {text1}
           </Text>
+          {highlightText ? (
+            <Text
+              variant="caption"
+              textColor="primary"
+              numberOfLines={2}
+              style={styles.highlight}
+            >
+              {highlightText}
+            </Text>
+          ) : null}
         </View>
       </View>
     );
+
+    if (handlePress) {
+      return (
+        <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>
+          {content}
+        </TouchableOpacity>
+      );
+    }
+
+    return content;
   }
 );
 
@@ -79,5 +106,8 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 1,
+  },
+  highlight: {
+    marginTop: 4,
   },
 });

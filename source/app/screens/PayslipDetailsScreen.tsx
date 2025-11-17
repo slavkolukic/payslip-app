@@ -1,12 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, Theme } from "@/core/types";
 import { FC, useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Linking, Platform, StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
 import { Button, LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { formatDate } from "@/core/utils/formatDate";
 import { downloadFile, getBundledAssetUrl } from "@/core/services/files";
+import { showToast } from "@/core/services";
 
 type Props = NativeStackScreenProps<RootStackParamList, "PayslipDetails">;
 
@@ -30,8 +31,27 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
     const url = await getBundledAssetUrl(file.assetModuleId);
 
     downloadFile(url, file.filename, file.mimeType, {
-      onBegin: () => setDownloading(true),
-      onError: () => setDownloading(false),
+      onBegin: () => {
+        setDownloading(true);
+      },
+      onSuccess: (uri) => {
+        showToast({
+          text: "Payslip downloaded",
+          type: "success",
+          highlightText: Platform.OS === "android" ? "Open" : undefined,
+          onPress: () => {
+            if (Platform.OS === "ios") return;
+
+            Linking.openURL(uri);
+          },
+        });
+      },
+      onError: () => {
+        showToast({
+          text: "Failed to download payslip. Please try again.",
+          type: "error",
+        });
+      },
       onComplete: () => setDownloading(false),
     });
   };
