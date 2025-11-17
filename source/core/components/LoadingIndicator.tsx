@@ -73,24 +73,25 @@ export const LoadingIndicator: FC<Props> = memo(
     }, [color, theme.colors]);
 
     return (
-      <Animated.View style={containerStyle} entering={FadeIn}>
-        <View style={styles.linesContainer}>
-          <Animated.View
-            style={[styles.lineBase, firstLine, effectiveColorStyle]}
-          />
-          <View style={styles.spacing} />
-          <Animated.View
-            style={[styles.lineBase, secondLine, effectiveColorStyle]}
-          />
-          <View style={styles.spacing} />
-          <Animated.View
-            style={[styles.lineBase, thirdLine, effectiveColorStyle]}
-          />
-          <View style={styles.spacing} />
-          <Animated.View
-            style={[styles.lineBase, fourthLine, effectiveColorStyle]}
-          />
-        </View>
+      <Animated.View
+        style={[styles.linesContainer, containerStyle]}
+        entering={FadeIn}
+      >
+        <Animated.View
+          style={[styles.lineBase, firstLine, effectiveColorStyle]}
+        />
+        <View style={styles.spacing} />
+        <Animated.View
+          style={[styles.lineBase, secondLine, effectiveColorStyle]}
+        />
+        <View style={styles.spacing} />
+        <Animated.View
+          style={[styles.lineBase, thirdLine, effectiveColorStyle]}
+        />
+        <View style={styles.spacing} />
+        <Animated.View
+          style={[styles.lineBase, fourthLine, effectiveColorStyle]}
+        />
       </Animated.View>
     );
   }
@@ -99,7 +100,6 @@ export const LoadingIndicator: FC<Props> = memo(
 const styles = StyleSheet.create({
   linesContainer: {
     flexDirection: "row",
-    alignSelf: "flex-start",
   },
   lineBase: {
     width: 6,
