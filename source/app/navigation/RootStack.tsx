@@ -1,7 +1,6 @@
 import { RootStackParamList } from "@/core/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { PayslipsScreen, SettingsScreen } from "../screens";
-import { RALEWAY } from "@/core/constants";
 import { useTheme } from "@/core/hooks";
 import { AppHeader } from "@/core/components";
 
