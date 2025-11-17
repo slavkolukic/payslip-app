@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, Theme } from "@/core/types";
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
 import { Button, LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { formatDate } from "@/core/utils/formatDate";
+import { downloadFile, getBundledAssetUrl } from "@/core/services/files";
 
 type Props = NativeStackScreenProps<RootStackParamList, "PayslipDetails">;
 
@@ -13,6 +14,7 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
   const { payslipId } = route.params;
   const styles = useStyles(createStyles);
   const { payslip, loading } = usePayslip(payslipId);
+  const [downloading, setDownloading] = useState(false);
 
   const file = payslip?.file;
 
@@ -22,6 +24,17 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
     if (file.mimeType.startsWith("image/")) return "Image";
     return file.mimeType;
   }, [file]);
+
+  const handleDownload = async () => {
+    if (!file) return;
+    const url = await getBundledAssetUrl(file.assetModuleId);
+
+    downloadFile(url, file.filename, {
+      onBegin: () => setDownloading(true),
+      onError: () => setDownloading(false),
+      onComplete: () => setDownloading(false),
+    });
+  };
 
   if (loading) {
     return (
@@ -86,10 +99,11 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
       </View>
       <Button
         style={styles.downloadButton}
-        iconName="download"
+        iconName="download-outline"
         label="Download payslip"
         variant="primary"
-        onPress={() => {}}
+        loading={downloading}
+        onPress={handleDownload}
         disabled={!file}
       />
     </View>
