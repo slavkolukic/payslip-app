@@ -11,10 +11,11 @@ type Props = {
   fromDate: string;
   toDate: string;
   index: number;
+  onPress: () => void;
 };
 
 export const PayslipListItem: FC<Props> = memo(
-  ({ fromDate, toDate, index }) => {
+  ({ fromDate, toDate, index, onPress }) => {
     const styles = useStyles(createStyles);
 
     return (
@@ -22,6 +23,7 @@ export const PayslipListItem: FC<Props> = memo(
         <TouchableOpacity
           activeOpacity={ACTIVE_OPACITY.default}
           style={styles.itemContainer}
+          onPress={onPress}
         >
           <View style={styles.itemLeft}>
             <Icon iconName="document-text-outline" size={22} />

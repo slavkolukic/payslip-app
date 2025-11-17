@@ -9,10 +9,14 @@ import { PayslipList } from "@/features/payslip/components";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Payslips">;
 
-export const PayslipsScreen: FC<Props> = () => {
+export const PayslipsScreen: FC<Props> = ({ navigation }) => {
   const styles = useStyles(createStyles);
 
   const { payslips, loading } = usePayslips();
+
+  const handlePayslipPress = (payslipId: string) => {
+    navigation.navigate("PayslipDetails", { payslipId });
+  };
 
   if (loading) {
     return (
@@ -26,7 +30,7 @@ export const PayslipsScreen: FC<Props> = () => {
 
   return (
     <View style={styles.container}>
-      <PayslipList payslips={payslips} />
+      <PayslipList payslips={payslips} onPayslipPress={handlePayslipPress} />
     </View>
   );
 };

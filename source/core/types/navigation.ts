@@ -1,5 +1,5 @@
 export type RootStackParamList = {
   Payslips: undefined;
-  PayslipDetail: { payslipId: string };
+  PayslipDetails: { payslipId: string };
   Settings: undefined;
 };

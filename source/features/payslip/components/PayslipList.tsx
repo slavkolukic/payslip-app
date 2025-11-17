@@ -7,9 +7,10 @@ import { PayslipListItem } from "./PayslipListItem";
 
 type Props = {
   payslips: Payslip[];
+  onPayslipPress?: (payslipId: string) => void;
 };
 
-export const PayslipList: FC<Props> = ({ payslips }) => {
+export const PayslipList: FC<Props> = ({ payslips, onPayslipPress }) => {
   const styles = useStyles(createStyles);
 
   const renderItem: ListRenderItem<Payslip> = ({ item, index }) => (
@@ -17,6 +18,7 @@ export const PayslipList: FC<Props> = ({ payslips }) => {
       fromDate={item.fromDate}
       toDate={item.toDate}
       index={index}
+      onPress={() => onPayslipPress?.(item.id)}
     />
   );
 

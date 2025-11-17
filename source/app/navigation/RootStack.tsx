@@ -1,12 +1,14 @@
 import { RootStackParamList } from "@/core/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { PayslipsScreen, SettingsScreen } from "../screens";
+import {
+  PayslipDetailsScreen,
+  PayslipsScreen,
+  SettingsScreen,
+} from "../screens";
 import { useTheme } from "@/core/hooks";
 import { AppHeader } from "@/core/components";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
-
-const DefaultScreen = () => null;
 
 export const RootStackNavigator = () => {
   const { theme } = useTheme();
@@ -18,7 +20,10 @@ export const RootStackNavigator = () => {
       }}
     >
       <RootStack.Screen name="Payslips" component={PayslipsScreen} />
-      <RootStack.Screen name="PayslipDetail" component={DefaultScreen} />
+      <RootStack.Screen
+        name="PayslipDetails"
+        component={PayslipDetailsScreen}
+      />
       <RootStack.Screen name="Settings" component={SettingsScreen} />
     </RootStack.Navigator>
   );
