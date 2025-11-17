@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { Theme } from "@/core/types";
+import { formatDate } from "@/core/utils";
 
 type Props = {
   fromDate: string;
@@ -22,7 +23,9 @@ export const PayslipListItem: FC<Props> = memo(({ fromDate, toDate }) => {
         <Icon iconName="document-text-outline" size={22} />
       </View>
       <View style={styles.itemContent}>
-        <Text variant="body">{`${fromDate} - ${toDate}`}</Text>
+        <Text variant="body">{`${formatDate(fromDate)} - ${formatDate(
+          toDate
+        )}`}</Text>
       </View>
       <View style={styles.itemRight}>
         <Icon iconName="chevron-forward" size={20} />
