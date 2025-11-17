@@ -21,6 +21,7 @@ export const RootStackNavigator = () => {
     >
       <RootStack.Screen name="Payslips" component={PayslipsScreen} />
       <RootStack.Screen
+        options={{ headerTitle: "Payslip Details" }}
         name="PayslipDetails"
         component={PayslipDetailsScreen}
       />
