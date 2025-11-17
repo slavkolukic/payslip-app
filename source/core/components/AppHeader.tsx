@@ -1,11 +1,11 @@
 import { getHeaderTitle, Header } from "@react-navigation/elements";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import { FC, memo } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { Platform, Pressable, StyleSheet } from "react-native";
 import { Icon } from "./Icon";
 import { triggerHapticFeedback } from "../services";
 import { RALEWAY } from "../constants";
-import { useStyles } from "../hooks";
+import { useStyles, useTheme } from "../hooks";
 import { Theme } from "../types";
 import Animated, {
   useAnimatedStyle,
@@ -19,6 +19,7 @@ type Props = NativeStackHeaderProps;
 export const AppHeader: FC<Props> = memo(
   ({ options, route, back, navigation }) => {
     const styles = useStyles(createStyles);
+    const { theme } = useTheme();
 
     const scale = useSharedValue(1);
 
@@ -40,6 +41,9 @@ export const AppHeader: FC<Props> = memo(
     return (
       <Header
         {...options}
+        headerTintColor={
+          Platform.OS === "android" ? theme.colors.text : undefined
+        }
         headerTitleStyle={styles.headerTitle}
         headerBackTitleStyle={styles.headerBackTitle}
         headerStyle={styles.headerContainer}
