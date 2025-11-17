@@ -5,34 +5,40 @@ import { Icon, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { Theme } from "@/core/types";
 import { formatDate } from "@/core/utils";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 type Props = {
   fromDate: string;
   toDate: string;
+  index: number;
 };
 
-export const PayslipListItem: FC<Props> = memo(({ fromDate, toDate }) => {
-  const styles = useStyles(createStyles);
+export const PayslipListItem: FC<Props> = memo(
+  ({ fromDate, toDate, index }) => {
+    const styles = useStyles(createStyles);
 
-  return (
-    <TouchableOpacity
-      activeOpacity={ACTIVE_OPACITY.default}
-      style={styles.itemContainer}
-    >
-      <View style={styles.itemLeft}>
-        <Icon iconName="document-text-outline" size={22} />
-      </View>
-      <View style={styles.itemContent}>
-        <Text variant="body">{`${formatDate(fromDate)} - ${formatDate(
-          toDate
-        )}`}</Text>
-      </View>
-      <View style={styles.itemRight}>
-        <Icon iconName="chevron-forward" size={20} />
-      </View>
-    </TouchableOpacity>
-  );
-});
+    return (
+      <Animated.View entering={FadeInUp.duration(500).delay(index * 16)}>
+        <TouchableOpacity
+          activeOpacity={ACTIVE_OPACITY.default}
+          style={styles.itemContainer}
+        >
+          <View style={styles.itemLeft}>
+            <Icon iconName="document-text-outline" size={22} />
+          </View>
+          <View style={styles.itemContent}>
+            <Text variant="body">{`${formatDate(fromDate)} - ${formatDate(
+              toDate
+            )}`}</Text>
+          </View>
+          <View style={styles.itemRight}>
+            <Icon iconName="chevron-forward" size={20} />
+          </View>
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }
+);
 
 const createStyles = (theme: Theme) => {
   return StyleSheet.create({

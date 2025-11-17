@@ -12,8 +12,12 @@ type Props = {
 export const PayslipList: FC<Props> = ({ payslips }) => {
   const styles = useStyles(createStyles);
 
-  const renderItem: ListRenderItem<Payslip> = ({ item }) => (
-    <PayslipListItem fromDate={item.fromDate} toDate={item.toDate} />
+  const renderItem: ListRenderItem<Payslip> = ({ item, index }) => (
+    <PayslipListItem
+      fromDate={item.fromDate}
+      toDate={item.toDate}
+      index={index}
+    />
   );
 
   return (

@@ -7,12 +7,36 @@ import { triggerHapticFeedback } from "../services";
 import { RALEWAY } from "../constants";
 import { useStyles } from "../hooks";
 import { Theme } from "../types";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 
 type Props = NativeStackHeaderProps;
 
 export const AppHeader: FC<Props> = memo(
   ({ options, route, back, navigation }) => {
     const styles = useStyles(createStyles);
+
+    const scale = useSharedValue(1);
+
+    const handlePress = () => {
+      triggerHapticFeedback("medium");
+      navigation.navigate("Settings");
+      scale.value = withSequence(
+        withTiming(0.9, { duration: 100 }),
+        withTiming(1, { duration: 100 })
+      );
+    };
+
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ scale: scale.value }],
+      };
+    });
+
     return (
       <Header
         {...options}
@@ -21,10 +45,6 @@ export const AppHeader: FC<Props> = memo(
         headerStyle={styles.headerContainer}
         headerRight={() => {
           if (route.name !== "Payslips") return null;
-          const handlePress = () => {
-            triggerHapticFeedback("medium");
-            navigation.navigate("Settings");
-          };
 
           return (
             <Pressable
@@ -35,7 +55,9 @@ export const AppHeader: FC<Props> = memo(
               accessibilityLabel="Open settings"
               accessibilityHint="Navigates to the settings screen"
             >
-              <Icon iconName="settings" size={24} color={"text"} />
+              <Animated.View style={animatedStyle}>
+                <Icon iconName="settings" size={24} color={"text"} />
+              </Animated.View>
             </Pressable>
           );
         }}
