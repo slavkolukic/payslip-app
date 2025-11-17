@@ -7,6 +7,7 @@ import {
 import { RootStackNavigator } from "./navigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { ReducedMotionConfig, ReduceMotion } from "react-native-reanimated";
+import { AppToast } from "@/core/components";
 
 export default function App() {
   const { isDark } = useTheme();
@@ -29,6 +30,7 @@ export default function App() {
         <RootStackNavigator />
       </NavigationContainer>
       <ReducedMotionConfig mode={ReduceMotion.System} />
+      <AppToast />
       <StatusBar style={isDark ? "light" : "dark"} />
     </SafeAreaProvider>
   );

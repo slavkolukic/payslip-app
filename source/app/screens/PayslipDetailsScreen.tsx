@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, Theme } from "@/core/types";
 import { FC, useMemo, useState } from "react";
-import { Linking, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
 import { Button, LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
