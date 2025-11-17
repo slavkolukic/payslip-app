@@ -77,6 +77,7 @@ export const Button: FC<ButtonProps> = memo(
         {...otherProps}
         activeOpacity={ACTIVE_OPACITY[activeOpacity]}
         onPress={handlePress}
+        disabled={disabled || loading}
         style={[
           styles.base,
           containerVariantStyle,
