@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, Theme } from "@/core/types";
 import { FC, useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Linking, StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
 import { Button, LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
@@ -29,7 +29,7 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
     if (!file) return;
     const url = await getBundledAssetUrl(file.assetModuleId);
 
-    downloadFile(url, file.filename, {
+    downloadFile(url, file.filename, file.mimeType, {
       onBegin: () => setDownloading(true),
       onError: () => setDownloading(false),
       onComplete: () => setDownloading(false),

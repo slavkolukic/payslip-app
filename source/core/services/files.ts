@@ -1,7 +1,8 @@
 import { Asset } from "expo-asset";
-import { Paths, File } from "expo-file-system";
+import { Paths, File, Directory } from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { fetch } from "expo/fetch";
+import { Platform } from "react-native";
 
 type DownloadFileCallbacks = {
   onBegin?: () => void;
@@ -13,6 +14,7 @@ type DownloadFileCallbacks = {
 export const downloadFile = async (
   url: string,
   filename: string,
+  mimeType: string,
   callbacks?: DownloadFileCallbacks
 ): Promise<string> => {
   try {
@@ -25,23 +27,50 @@ export const downloadFile = async (
     }
 
     const bytes = await response.bytes();
-    const file = new File(Paths.cache, filename);
 
-    file.write(bytes);
-    callbacks?.onSuccess?.(file.uri);
-    await saveFile(file.uri);
+    const uri =
+      Platform.OS === "ios"
+        ? await saveToIosCacheAndShare(bytes, filename)
+        : await saveToAndroidPickedDirectory(bytes, filename, mimeType);
 
-    return file.uri;
-  } catch (error) {
-    console.error("downloadFile failed", error);
-    callbacks?.onError?.(error);
+    callbacks?.onSuccess?.(uri);
+    return uri;
+  } catch (error: unknown) {
+    const err = error as { code?: string };
+    if (err.code !== "ERR_PICKER_CANCELLED") {
+      console.error("downloadFile failed", error);
+      callbacks?.onError?.(error);
+    }
+
     throw error;
   } finally {
     callbacks?.onComplete?.();
   }
 };
 
-const saveFile = async (uri: string) => {
+const saveToIosCacheAndShare = async (
+  bytes: Uint8Array,
+  filename: string
+): Promise<string> => {
+  const file = new File(Paths.cache, filename);
+  file.write(bytes);
+  await shareFile(file.uri);
+  return file.uri;
+};
+
+const saveToAndroidPickedDirectory = async (
+  bytes: Uint8Array,
+  filename: string,
+  mimeType: string
+): Promise<string> => {
+  const selectedDirectory = await Directory.pickDirectoryAsync();
+
+  const file = selectedDirectory.createFile(filename, mimeType);
+  file.write(bytes);
+  return file.uri;
+};
+
+const shareFile = async (uri: string) => {
   try {
     const isAvailable = await Sharing.isAvailableAsync();
     if (!isAvailable) {
