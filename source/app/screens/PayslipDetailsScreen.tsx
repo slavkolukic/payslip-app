@@ -3,7 +3,7 @@ import { RootStackParamList, Theme } from "@/core/types";
 import { FC } from "react";
 import { StyleSheet, View } from "react-native";
 import { usePayslip } from "@/features/payslip/hooks";
-import { Text } from "@/core/components";
+import { LoadingIndicator, Text } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { formatDate } from "@/core/utils/formatDate";
 
@@ -16,10 +16,8 @@ export const PayslipDetailsScreen: FC<Props> = ({ route }) => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.loadingWrap}>
-          <Text textColor="textMuted">Loading payslip…</Text>
-        </View>
+      <View style={styles.loadingContainer}>
+        <LoadingIndicator />
       </View>
     );
   }
@@ -72,6 +70,11 @@ const createStyles = (theme: Theme) =>
       backgroundColor: theme.colors.bgDark,
       paddingHorizontal: 16,
       paddingTop: 16,
+    },
+    loadingContainer: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
     },
     loadingWrap: {
       flex: 1,

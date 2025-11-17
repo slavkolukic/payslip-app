@@ -1,6 +1,5 @@
 import { FC, memo, useCallback, useMemo } from "react";
 import {
-  ActivityIndicator,
   NativeSyntheticEvent,
   NativeTouchEvent,
   StyleSheet,
@@ -11,10 +10,10 @@ import {
 import { useStyles } from "../hooks/useStyles";
 import { Text } from "./Text";
 import { IconName, Theme, ThemeColor } from "../types";
-import { useTheme } from "../hooks";
 import { Icon } from "./Icon";
 import { ACTIVE_OPACITY } from "../constants";
 import { HapticFeedbackType, triggerHapticFeedback } from "../services";
+import { LoadingIndicator } from "./LoadingIndicator";
 
 type ButtonVariant = "default" | "outlined" | "primary";
 
@@ -41,7 +40,6 @@ export const Button: FC<ButtonProps> = memo(
     ...otherProps
   }) => {
     const styles = useStyles(createButtonStyles);
-    const { theme } = useTheme();
 
     const handlePress = useCallback(
       (event: NativeSyntheticEvent<NativeTouchEvent>) => {
@@ -101,7 +99,7 @@ export const Button: FC<ButtonProps> = memo(
           <Icon iconName="build" size={24} style={styles.dummyIcon} />
         </View>
         {loading ? (
-          <ActivityIndicator style={styles.loading} color={theme.colors.text} />
+          <LoadingIndicator containerStyle={styles.loading} color={"primary"} />
         ) : null}
       </TouchableOpacity>
     );

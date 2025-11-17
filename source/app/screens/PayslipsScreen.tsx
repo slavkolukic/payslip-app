@@ -1,5 +1,5 @@
 import { RootStackParamList, Theme } from "@/core/types";
-import { Text } from "@/core/components";
+import { LoadingIndicator } from "@/core/components";
 import { useStyles } from "@/core/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
@@ -20,10 +20,8 @@ export const PayslipsScreen: FC<Props> = ({ navigation }) => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.loadingWrap}>
-          <Text textColor="textMuted">Loading payslips…</Text>
-        </View>
+      <View style={styles.loadingContainer}>
+        <LoadingIndicator />
       </View>
     );
   }
@@ -42,6 +40,11 @@ const createStyles = (theme: Theme) =>
       backgroundColor: theme.colors.bgDark,
     },
     loadingWrap: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    loadingContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
