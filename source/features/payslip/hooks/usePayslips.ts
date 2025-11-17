@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { usePayslipStore } from "../store";
 
+/**
+ * Would ideally be a react query or apollo client wrapper
+ */
 export const usePayslips = () => {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
@@ -14,7 +17,7 @@ export const usePayslips = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setStatus("success");
-    }, 1000);
+    }, 1200);
 
     return () => clearTimeout(timeout);
   }, []);
