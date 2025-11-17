@@ -86,24 +86,6 @@ const MOCK_PAYSLIPS: Payslip[] = [
     toDate: "2023-12-31",
     file: null,
   },
-  {
-    id: "ps_2023_11",
-    fromDate: "2023-11-01",
-    toDate: "2023-11-30",
-    file: null,
-  },
-  {
-    id: "ps_2023_10",
-    fromDate: "2023-10-01",
-    toDate: "2023-10-31",
-    file: null,
-  },
-  {
-    id: "ps_2023_09",
-    fromDate: "2023-09-01",
-    toDate: "2023-09-30",
-    file: null,
-  },
 ];
 
 type PayslipStore = {

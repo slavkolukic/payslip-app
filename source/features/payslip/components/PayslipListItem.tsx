@@ -45,7 +45,7 @@ const createStyles = (theme: Theme) => {
     itemContainer: {
       flexDirection: "row",
       alignItems: "center",
-      paddingVertical: 14,
+      paddingVertical: 16,
       paddingHorizontal: 14,
       borderRadius: 12,
       backgroundColor: theme.colors.bg,
