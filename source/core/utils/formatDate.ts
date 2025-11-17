@@ -4,6 +4,7 @@ import dayjs from "dayjs";
  * Formats a date into a human-friendly string.
  * - short: "1 Jan 2024"
  * - long: "July 8 2011"
+ *
  * Returns empty string for invalid inputs.
  */
 export const formatDate = (

@@ -8,7 +8,7 @@ export const usePayslip = (payslipId: string) => {
   const payslips = usePayslipStore((state) => state.payslips);
 
   /**
-   * Simulate a network request to fetch payslips
+   * Simulate a network request to fetch payslip details
    */
   useEffect(() => {
     const timeout = setTimeout(() => {
