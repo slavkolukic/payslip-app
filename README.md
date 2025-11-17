@@ -71,3 +71,19 @@ This structure enforces a clean dependency flow:
 - **Modular** – features can evolve or be replaced without touching the app shell or core.
 - **Maintainable** – avoids circular imports and keeps responsibilities clear.
 - **Testable** – core logic and domain code are decoupled from navigation and top‑level UI.
+
+### File download & storage behavior
+
+The app uses the **new Expo FileSystem API** (`expo-file-system` modern `File` / `Directory` / `Paths` interface) to handle payslip downloads.
+
+- **iOS**
+
+  - The payslip (bundled PDF/image) is written into the app’s **sandboxed cache** (`Paths.cache`).
+  - After writing, the app opens the **native share sheet** (`expo-sharing`) so the user can:
+    - Preview the file in a compatible app (e.g. Files, Preview).
+    - Save it.
+
+- **Android**
+  - Instead of relying on the native share sheet (which is less reliable than on iOS), the app uses the new FileSystem directory picker.
+  - The user is prompted to **pick a target folder**, and the payslip is saved directly into that folder via the `Directory` / `File` API.
+  - This gives a more predictable “real download location” on Android while still respecting scoped storage.
