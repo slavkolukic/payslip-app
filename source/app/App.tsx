@@ -17,7 +17,7 @@ export default function App() {
   const { theme } = useTheme();
 
   if (!appInitialized) {
-    // ideally splash screen should be hidden here
+    // ideally splash screen should be shown here
     return null;
   }
 
@@ -29,6 +29,7 @@ export default function App() {
       <NavigationContainer>
         <RootStackNavigator />
       </NavigationContainer>
+      {/* This is used to reduce motion for accessibility purposes */}
       <ReducedMotionConfig mode={ReduceMotion.System} />
       <AppToast />
       <StatusBar style={isDark ? "light" : "dark"} />
