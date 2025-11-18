@@ -1,5 +1,5 @@
 import { FC, memo, useMemo } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Toast, { BaseToastProps, ToastConfig } from "react-native-toast-message";
 import { useTheme } from "@/core/hooks";
 import { Text } from "./Text";
@@ -14,7 +14,14 @@ type AppToastProps = BaseToastProps & {
 };
 
 export const AppToast = () => {
-  return <Toast config={appToastConfig} position="bottom" bottomOffset={70} />;
+  return (
+    <Toast
+      config={appToastConfig}
+      position={Platform.OS === "ios" ? "top" : "bottom"}
+      bottomOffset={70}
+      topOffset={70}
+    />
+  );
 };
 
 const AppToastLayout: FC<AppToastProps> = memo(
@@ -36,7 +43,9 @@ const AppToastLayout: FC<AppToastProps> = memo(
     const handlePress = props?.onPress;
 
     const content = (
-      <View style={[styles.container, { backgroundColor: theme.colors.bg }]}>
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.bgLight }]}
+      >
         <View style={[styles.accent, { backgroundColor: accentColor }]} />
         <View style={styles.textContainer}>
           <Text
