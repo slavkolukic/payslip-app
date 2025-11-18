@@ -28,11 +28,14 @@ export const downloadFile = async (
 
     const bytes = await response.bytes();
 
-    const uri =
-      Platform.OS === "ios"
-        ? await saveToIosCacheAndShare(bytes, filename)
-        : await saveToAndroidPickedDirectory(bytes, filename, mimeType);
+    if (Platform.OS === "ios") {
+      const uri = await saveToIosCache(bytes, filename);
+      callbacks?.onSuccess?.(uri);
+      await shareFile(uri);
+      return uri;
+    }
 
+    const uri = await saveToAndroidPickedDirectory(bytes, filename, mimeType);
     callbacks?.onSuccess?.(uri);
     return uri;
   } catch (error: unknown) {
@@ -48,13 +51,12 @@ export const downloadFile = async (
   }
 };
 
-const saveToIosCacheAndShare = async (
+const saveToIosCache = async (
   bytes: Uint8Array,
   filename: string
 ): Promise<string> => {
   const file = new File(Paths.cache, filename);
   file.write(bytes);
-  await shareFile(file.uri);
   return file.uri;
 };
 
